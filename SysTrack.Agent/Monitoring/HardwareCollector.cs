@@ -5,7 +5,7 @@ namespace SysTrack.Agent.Monitoring
 {
     public class HardwareCollector : IMetricCollector
     {
-        private SystemMetrics _metrics = new SystemMetrics();
+        private HardwareMetrics _metrics = new HardwareMetrics();
         private readonly Computer _computer = new Computer()
         {
             IsCpuEnabled = true,
@@ -39,7 +39,7 @@ namespace SysTrack.Agent.Monitoring
             }
         }
 
-        public SystemMetrics GetMetrics()
+        public HardwareMetrics GetMetrics()
         {
             return _metrics;
         }

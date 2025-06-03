@@ -2,10 +2,9 @@
 
 namespace SysTrack.Agent.Monitoring
 {
-    public interface IMetricCollector
+    public interface INetworkCollector
     {
         public void Update();
-
-        public HardwareMetrics GetMetrics();
+        public NetworkMetrics GetNetworkUsage();
     }
 }
