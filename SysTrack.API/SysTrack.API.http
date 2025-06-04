@@ -1,0 +1,6 @@
+@SysTrack.API_HostAddress = http://localhost:5246
+
+GET {{SysTrack.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
