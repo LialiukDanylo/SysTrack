@@ -1,11 +1,23 @@
-﻿using SysTrack.Agent.Models;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using SysTrack.Agent.Models;
 using SysTrack.Agent.Monitoring;
+
 namespace SysTrack.Agent
 {
     public class Worker : BackgroundService
     {
+        private readonly string _groupId = "TestGroup";
+        private readonly bool isClient = false;
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5265/hub")
+            .WithAutomaticReconnect()
+            .Build();
+
+            await connection.StartAsync();
+            await connection.InvokeAsync("JoinGroup", _groupId, isClient);
+
             IMetricCollector hwMetricCollector = new HardwareCollector();
             INetworkCollector networkCollector = new NetworkCollector();
             HardwareMetrics hwMetrics = new HardwareMetrics();
