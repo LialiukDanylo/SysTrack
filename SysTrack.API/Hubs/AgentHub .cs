@@ -5,19 +5,19 @@ namespace SysTrack.API.Hubs
 {
     public class AgentHub : Hub
     {
-        public async Task JoinGroup(string roomId, bool isClient)
+        public async Task JoinGroup(string groupId, bool isClient)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupId);
         }
 
-        public async Task StartMetrics(string roomId)
+        public async Task StartMetrics(string groupId)
         {
-            await Clients.Group(roomId).SendAsync("StartMetrics");
+            await Clients.Group(groupId).SendAsync("StartMetrics");
         }
 
-        public async Task StopMetrics(string roomId)
+        public async Task StopMetrics(string groupId)
         {
-            await Clients.Group(roomId).SendAsync("StopMetrics");
+            await Clients.Group(groupId).SendAsync("StopMetrics");
         }
     }
 }

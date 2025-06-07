@@ -8,6 +8,7 @@ namespace SysTrack.Agent
     {
         private readonly string _groupId = "TestGroup";
         private readonly bool isClient = false;
+        private bool _isActive = false;
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var connection = new HubConnectionBuilder()
@@ -18,6 +19,18 @@ namespace SysTrack.Agent
             await connection.StartAsync();
             await connection.InvokeAsync("JoinGroup", _groupId, isClient);
 
+            connection.On("StartMetrics", () =>
+            {
+                Console.WriteLine(">>> Start sending metrics");
+                _isActive = true;
+            });
+
+            connection.On("StopMetrics", () =>
+            {
+                Console.WriteLine(">>> Stop sending metrics");
+                _isActive = false;
+            });
+
             IMetricCollector hwMetricCollector = new HardwareCollector();
             INetworkCollector networkCollector = new NetworkCollector();
             HardwareMetrics hwMetrics = new HardwareMetrics();
@@ -25,25 +38,27 @@ namespace SysTrack.Agent
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                hwMetricCollector.Update();
-                networkCollector.Update();
-
-                hwMetrics = hwMetricCollector.GetMetrics();
-                networkMetrics = networkCollector.GetNetworkUsage();
-
-                int cpuUsage = hwMetrics.CpuLoadPercent;
-                int gpuUsage = hwMetrics.GpuLoadPercent;
-                int ramUsed = hwMetrics.RamUsedMb;
-
-                Console.WriteLine($"CPU Usage: {cpuUsage}%");
-                Console.WriteLine($"GPU Usage: {gpuUsage}%");
-                Console.WriteLine($"Ram Used: {ramUsed}Mb");
-
-                foreach (var adapter in networkMetrics.NetworkUsage)
+                if (_isActive)
                 {
-                    Console.WriteLine($"Network Usage[{adapter.Key}]: ↓ {adapter.Value.receive / 1024:F2} KB/s, ↑ {adapter.Value.send / 1024:F2} KB/s, ↑");
-                }
+                    hwMetricCollector.Update();
+                    networkCollector.Update();
 
+                    hwMetrics = hwMetricCollector.GetMetrics();
+                    networkMetrics = networkCollector.GetNetworkUsage();
+
+                    int cpuUsage = hwMetrics.CpuLoadPercent;
+                    int gpuUsage = hwMetrics.GpuLoadPercent;
+                    int ramUsed = hwMetrics.RamUsedMb;
+
+                    Console.WriteLine($"CPU Usage: {cpuUsage}%");
+                    Console.WriteLine($"GPU Usage: {gpuUsage}%");
+                    Console.WriteLine($"Ram Used: {ramUsed}Mb");
+
+                    foreach (var adapter in networkMetrics.NetworkUsage)
+                    {
+                        Console.WriteLine($"Network Usage[{adapter.Key}]: ↓ {adapter.Value.receive / 1024:F2} KB/s, ↑ {adapter.Value.send / 1024:F2} KB/s, ↑");
+                    }
+                }
                 await Task.Delay(5000, stoppingToken);
             }
         }
