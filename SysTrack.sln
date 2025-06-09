@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysTrack.Agent", "SysTrack.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysTrack.API", "SysTrack.API\SysTrack.API.csproj", "{D94633DB-ECB9-479C-ADC1-74799A5DEAB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysTrack.Client", "SysTrack.Client\SysTrack.Client.csproj", "{1BFE3BCA-12E7-4048-9250-ECE65485736B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D94633DB-ECB9-479C-ADC1-74799A5DEAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D94633DB-ECB9-479C-ADC1-74799A5DEAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D94633DB-ECB9-479C-ADC1-74799A5DEAB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BFE3BCA-12E7-4048-9250-ECE65485736B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BFE3BCA-12E7-4048-9250-ECE65485736B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BFE3BCA-12E7-4048-9250-ECE65485736B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BFE3BCA-12E7-4048-9250-ECE65485736B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
