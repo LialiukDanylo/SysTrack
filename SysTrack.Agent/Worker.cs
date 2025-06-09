@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.SignalR.Client;
 using SysTrack.Agent.Models;
 using SysTrack.Agent.Monitoring;
 
@@ -12,12 +13,31 @@ namespace SysTrack.Agent
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5265/hub")
-            .WithAutomaticReconnect()
-            .Build();
+                .WithUrl("http://localhost:5000/hub")
+                .WithAutomaticReconnect()
+                .Build();
 
-            await connection.StartAsync();
-            await connection.InvokeAsync("JoinGroup", _groupId, isClient);
+            connection.Reconnected += async (connectionId) =>
+            {
+                await connection.InvokeAsync("JoinGroup", _groupId, isClient);
+            };
+
+            _ = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        await connection.StartAsync();
+                        await connection.InvokeAsync("JoinGroup", _groupId, isClient);
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        await Task.Delay(5000);
+                    }
+                }
+            });
 
             connection.On("StartMetrics", () =>
             {
