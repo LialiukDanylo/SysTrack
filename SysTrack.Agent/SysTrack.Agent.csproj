@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.5" />
   </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\SysTrack.Shared\SysTrack.Shared.csproj" />
+  </ItemGroup>
 </Project>
