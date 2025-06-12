@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using SysTrack.API.Services;
 using SysTrack.API.Services.Interfaces;
-
+using SysTrack.Shared.Models;
 namespace SysTrack.API.Hubs
 {
     public class AgentHub : Hub
@@ -24,6 +23,9 @@ namespace SysTrack.API.Hubs
             }
             else
             {
+                if (_connectionManager.GetClientsCount(groupId) > 0)
+                    _ = StartMetrics(groupId);
+
                 Console.WriteLine($"[{Context.ConnectionId}] agent joined {groupId}");
             }
         }
@@ -51,6 +53,11 @@ namespace SysTrack.API.Hubs
         public async Task StopMetrics(string groupId)
         {
             await Clients.Group(groupId).SendAsync("StopMetrics");
+        }
+
+        public async Task SendMetrics(string groupId, MetricsData metrics)
+        {
+            await Clients.Group(groupId).SendAsync("ReceiveMetrics", metrics);
         }
     }
 }

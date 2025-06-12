@@ -3,6 +3,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Windows;
 using Microsoft.AspNetCore.SignalR.Client;
+using SysTrack.Shared.Models;
 
 namespace SysTrack.Client
 {
@@ -14,7 +15,7 @@ namespace SysTrack.Client
         protected override async void OnStartup(StartupEventArgs e)
         {
             var connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/hub")
+                .WithUrl("http://localhost:5265/hub")
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -22,6 +23,11 @@ namespace SysTrack.Client
             {
                 await connection.InvokeAsync("JoinGroup", _groupId, isClient);
             };
+
+            connection.On<MetricsData>("ReceiveMetrics", (metrics) =>
+            {
+                Debug.WriteLine($"{metrics.Name}\nCPU: {metrics.CpuUsage}%\nGPU: {metrics.GpuUsage}%");
+            });
 
             _ = Task.Run(async () =>
             {
@@ -33,7 +39,7 @@ namespace SysTrack.Client
                         await connection.InvokeAsync("JoinGroup", _groupId, isClient);
                         break;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         await Task.Delay(5000);
                     }
