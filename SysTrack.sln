@@ -27,7 +27,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "systrack.web", "systrack.we
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51601"
+		SlnRelativePath = "systrack.web\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysTrack.Shared", "SysTrack.Shared\SysTrack.Shared.csproj", "{DD65CBB0-8ECA-4E7B-8F18-FDC3EEE08862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +54,10 @@ Global
 		{975F4733-493D-4734-998E-5D426E06F683}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{975F4733-493D-4734-998E-5D426E06F683}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{975F4733-493D-4734-998E-5D426E06F683}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{DD65CBB0-8ECA-4E7B-8F18-FDC3EEE08862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD65CBB0-8ECA-4E7B-8F18-FDC3EEE08862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD65CBB0-8ECA-4E7B-8F18-FDC3EEE08862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD65CBB0-8ECA-4E7B-8F18-FDC3EEE08862}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
