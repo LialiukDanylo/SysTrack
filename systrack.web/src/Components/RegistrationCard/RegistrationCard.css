@@ -1,0 +1,9 @@
+
+.input-field:focus ~ .label{
+    top:0px;
+}
+
+.input-field:focus{
+    outline: none;
+}
+
